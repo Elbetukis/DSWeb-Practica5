@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:body>
+    <div class="container">
+        <h2>Registro de Venta</h2>
+        <div class="form-group">
+            <label for="cliente">Cliente</label>
+            <p:selectOneMenu id="clienteSelect" value="#{ventaController.idCliente}" required="true">
+                <f:selectItems value="#{clienteController.listaClientes}" var="cliente" itemLabel="#{cliente.nombre}" itemValue="#{cliente.idCliente}" />
+            </p:selectOneMenu>
+        </div>
+        <div class="form-group">
+            <label for="producto">Producto</label>
+            <p:selectOneMenu id="productoSelect" value="#{ventaController.detalleVenta.producto}" required="true">
+                <f:selectItems value="#{productoController.listaProductos}" var="producto" itemLabel="#{producto.descripcion}" itemValue="#{producto.idProducto}" />
+            </p:selectOneMenu>
+        </div>
+        
+        
+        <div class="form-group">
+            <label for="cantidad">Cantidad</label>  
+            <p:inputText id="cantidadInput" value="#{ventaController.detalleVenta.cantidad}" required="false" />
+        </div>
+
+        <div class="form-group">
+            <p:commandButton value="Agregar Producto" action="#{ventaController.agregarProducto()}" update="@form" icon="pi pi-plus" styleClass="btn" />
+        </div>
+
+         <h3>Detalle de Venta</h3>
+         <p:dataTable value="#{ventaController.listaDetalleVentas}" var="detalle">
+            <p:column headerText="Producto">
+                #{detalle.producto}
+            </p:column>
+             <p:column headerText="Descripcion">
+                #{ventaController.getProductoID(detalle.producto)}
+            </p:column>
+            <p:column headerText="Cantidad">
+                #{detalle.cantidad}
+            </p:column>
+             <p:column headerText="Precio Unitario">
+                #{detalle.precio}
+            </p:column>
+             <p:column headerText="Total a pagar">
+                #{ventaController.getTotal(detalle.cantidad, detalle.precio)}
+            </p:column>
+        </p:dataTable>
+
+        <div class="form-group">
+            <p:commandButton value="Registrar Venta" action="#{ventaController.guardarVenta}" update="@form" icon="pi pi-save" styleClass="btn" />
+        </div>
+
+        <h:panelGroup rendered="#{!ventaController.listaVentas.isEmpty()}">
+            <p:dataTable value="#{ventaController.listaVentas}" var="venta">
+                <p:column headerText="ID Venta">
+                    #{venta.idVenta}
+                </p:column>
+                <p:column headerText="Cliente">
+                    #{clienteController.obteneNombreID(venta.cliente)}
+                </p:column>
+                <p:column headerText="Total">
+                    #{venta.total}
+                </p:column>
+                                <p:column headerText="Acciones">
+                                    <p:commandButton value="Generar PDF" action="#{ventaController.generarPdfVenta(venta.idVenta)}" icon="pi pi-file-pdf" styleClass="btn btn-primary" />
+                                    <p:commandButton value="Enviar por Correo" action="#{ventaController.enviarCorreoVenta(venta.idVenta, 'sonicyabsol@gmail.com')}" icon="pi pi-envelope" styleClass="btn btn-secondary" />
+                </p:column>
+
+            </p:dataTable>
+        </h:panelGroup>
+
+        <h:panelGroup rendered="#{ventaController.listaVentas.isEmpty()}">
+            <p>No hay ventas registradas.</p>
+        </h:panelGroup>
+    </div>
+</h:body>
+</html>

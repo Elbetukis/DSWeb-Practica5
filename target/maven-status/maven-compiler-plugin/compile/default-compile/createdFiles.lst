@@ -1,0 +1,16 @@
+dao\VentaDAO.class
+controller\VentaController.class
+entidades\Venta.class
+entidades\DetalleVenta.class
+services\EmailService$1.class
+controller\ClienteController.class
+services\EmailService.class
+controller\prueba.class
+entidades\Producto.class
+dao\ClienteDAO.class
+entidades\Cliente.class
+services\ReporteService.class
+dao\DetalleVentaDAO.class
+dao\ProductoDAO.class
+services\HibernateUtil.class
+controller\ProductoController.class
