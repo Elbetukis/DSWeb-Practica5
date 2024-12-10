@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author Asus
+ * 
  */
 public class ClienteDAO {
     public void guardarCliente(Cliente cliente) {
